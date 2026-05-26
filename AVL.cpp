@@ -160,35 +160,48 @@ NO* girarDireita(NO* y) {
           / \                  / \  
         T1  T2               T2  T3  
    */  
+    // Passo 1
+    NO* x = y->esq;
 
-   // Passo 1: Armazene o filho esquerdo de 'y' em uma variável temporária 'x'.  
-   // Passo 2: Transfira a subárvore direita de 'x' para a subárvore esquerda de 'y'.  
-   // Passo 3: Atualize 'x' para ser o novo nó raiz da subárvore.  
-   // Passo 4: Recalcule as alturas dos nós afetados.  
-   // Passo 5: Retorne o novo nó raiz ('x').  
+    // Passo 2
+    NO* T2 = x->dir;
+    y->esq = T2;
 
-	// provisoriamente retorna o ponteiro passado como parâmetro
+    // Passo 3
+    x->dir = y;
+
+    // Passo 4 - recalcular alturas (de baixo para cima)
+    y->altura = maior(alturaNo(y->esq), alturaNo(y->dir)) + 1;
+    x->altura = maior(alturaNo(x->esq), alturaNo(x->dir)) + 1;
+
+    // Passo 5
+    return x;  
+    
+    // provisoriamente retorna o ponteiro passado como parâmetro
 	return y; 
 }  
 
 NO* girarEsquerda(NO* x) {  
-   /* Rotação simples à esquerda  
-           x                    y  
-          / \                  / \  
-         T1  y      =>        x  T3  
-            / \              / \  
-           T2 T3            T1 T2  
-   */  
+    
+    // Passo 1
+    NO* y = x->dir;
 
-   // Passo 1: Armazene o filho direito de 'x' em uma variável temporária 'y'.  
-   // Passo 2: Transfira a subárvore esquerda de 'y' para a subárvore direita de 'x'.  
-   // Passo 3: Atualize 'y' para ser o novo nó raiz da subárvore.  
-   // Passo 4: Recalcule as alturas dos nós afetados.  
-   // Passo 5: Retorne o novo nó raiz ('y').  
+    // Passo 2
+    NO* T2 = y->esq;
+    x->dir = T2;
 
+    // Passo 3
+    y->esq = x;
 
-    // provisoriamente retorna o ponteiro passado como parâmetro
-    return x; 
+    // Passo 4 - recalcular alturas
+    x->altura = maior(alturaNo(x->esq), alturaNo(x->dir)) + 1;
+    y->altura = maior(alturaNo(y->esq), alturaNo(y->dir)) + 1;
+
+    // Passo 5
+    return y;
+
+    return x;
+}
 }
 
 NO* insereArvore(NO* no, int valor) {
